@@ -26,7 +26,9 @@ jobs:
         if: matrix.os == 'macos-latest'
 
       - name: Install native dependencies (Windows)
-        run: choco install --no-progress vlc
+        run: |
+          choco install --no-progress vlc
+          refreshenv
         if: matrix.os == 'windows-latest'
 
       - name: Print VLC version
