@@ -1,0 +1,61 @@
+name: Tests
+
+on:
+  push:
+
+jobs:
+  test-vlc:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install native dependencies (Ubuntu)
+        run: sudo apt-get update && sudo apt-get install -y vlc
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: Install native dependencies (MacOS)
+        run: brew install vlc
+        if: matrix.os == 'macos-latest'
+
+      - name: Install native dependencies (Windows)
+        run: choco install --no-progress vlc
+        if: matrix.os == 'windows-latest'
+
+      - name: Print VLC version
+        run: vlc --version
+
+  test-mpv:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install native dependencies (Ubuntu)
+        run: sudo apt-get update && sudo apt-get install -y mpv
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: Install native dependencies (MacOS)
+        run: brew install mpv
+        if: matrix.os == 'macos-latest'
+
+      - name: Install native dependencies (Windows)
+        run: choco install --no-progress mpv
+        if: matrix.os == 'windows-latest'
+
+      - name: Print Mpv version
+        run: mpv --version
