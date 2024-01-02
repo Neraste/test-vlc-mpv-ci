@@ -30,6 +30,7 @@ jobs:
           choco install --no-progress vlc
           Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
           refreshenv
+          echo $Env:PATH
         if: matrix.os == 'windows-latest'
 
       - name: Print VLC version (Ubuntu, MacOS)
@@ -62,13 +63,12 @@ jobs:
         if: matrix.os == 'macos-latest'
 
       - name: Install native dependencies (Windows)
-        run: choco install --no-progress mpv
+        run: |
+          choco install --no-progress mpv
+          Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
+          refreshenv
+          echo $Env:PATH
         if: matrix.os == 'windows-latest'
 
-      - name: Print Mpv version (Ubuntu, MacOS)
+      - name: Print Mpv version
         run: mpv --version
-        if: matrix.os != 'windows-latest'
-
-      - name: Print Mpv version (Windows)
-        run: C:\ProgramData\chocolatey\lib\mpv.install\tools\mpv --version
-        if: matrix.os == 'windows-latest'
