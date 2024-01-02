@@ -28,6 +28,7 @@ jobs:
       - name: Install native dependencies (Windows)
         run: |
           choco install --no-progress vlc
+          Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
           refreshenv
         if: matrix.os == 'windows-latest'
 
