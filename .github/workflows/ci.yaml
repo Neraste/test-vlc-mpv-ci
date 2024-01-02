@@ -33,6 +33,10 @@ jobs:
           echo $Env:PATH
         if: matrix.os == 'windows-latest'
 
+      - name: Check PATH (Windows)
+        run: echo $Env:PATH
+        if: matrix.os == 'windows-latest'
+
       - name: Print VLC version (Ubuntu, MacOS)
         run: vlc --version
         if: matrix.os != 'windows-latest'
@@ -68,6 +72,10 @@ jobs:
           Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
           refreshenv
           echo $Env:PATH
+        if: matrix.os == 'windows-latest'
+
+      - name: Check PATH (Windows)
+        run: echo $Env:PATH
         if: matrix.os == 'windows-latest'
 
       - name: Print Mpv version
