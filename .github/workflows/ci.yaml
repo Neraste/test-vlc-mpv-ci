@@ -60,7 +60,7 @@ jobs:
 
       - name: Install native dependencies (Windows)
         run: |
-          choco install --no-progress mpvio
+          choco install --no-progress mpvio --version=0.36.0
           Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
           refreshenv
           $splitPath = $Env:PATH -split ";"
