@@ -4,46 +4,38 @@ on:
   push:
 
 jobs:
-  # test-vlc:
-  #   runs-on: ${{ matrix.os }}
-  #
-  #   strategy:
-  #     matrix:
-  #       os:
-  #         - ubuntu-latest
-  #         - macos-latest
-  #         - windows-latest
-  #
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #
-  #     - name: Install native dependencies (Ubuntu)
-  #       run: sudo apt-get update && sudo apt-get install -y vlc
-  #       if: matrix.os == 'ubuntu-latest'
-  #
-  #     - name: Install native dependencies (MacOS)
-  #       run: brew install vlc
-  #       if: matrix.os == 'macos-latest'
-  #
-  #     - name: Install native dependencies (Windows)
-  #       run: |
-  #         choco install --no-progress vlc
-  #         Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
-  #         refreshenv
-  #         echo $Env:PATH
-  #       if: matrix.os == 'windows-latest'
-  #
-  #     - name: Check PATH (Windows)
-  #       run: echo $Env:PATH
-  #       if: matrix.os == 'windows-latest'
-  #
-  #     - name: Print VLC version (Ubuntu, MacOS)
-  #       run: vlc --version
-  #       if: matrix.os != 'windows-latest'
-  #
-  #     - name: Print VLC version (Windows)
-  #       run: C:\ProgramData\chocolatey\lib\tools\vlc --version
-  #       if: matrix.os == 'windows-latest'
+  test-vlc:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os:
+          # - ubuntu-latest
+          # - macos-latest
+          - windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install native dependencies (Ubuntu)
+        run: sudo apt-get update && sudo apt-get install -y vlc
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: Install native dependencies (MacOS)
+        run: brew install vlc
+        if: matrix.os == 'macos-latest'
+
+      - name: Install native dependencies (Windows)
+        run: |
+          choco install --no-progress vlc
+          Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
+          refreshenv
+          $splitPath = $Env:PATH -split ";"
+          echo $splitPath | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        if: matrix.os == 'windows-latest'
+
+      - name: Print VLC version (Ubuntu, MacOS)
+        run: vlc --version
 
   test-mpv:
     runs-on: ${{ matrix.os }}
@@ -73,10 +65,6 @@ jobs:
           refreshenv
           $splitPath = $Env:PATH -split ";"
           echo $splitPath | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-        if: matrix.os == 'windows-latest'
-
-      - name: Check PATH (Windows)
-        run: echo $Env:PATH
         if: matrix.os == 'windows-latest'
 
       - name: Print Mpv version
